@@ -28,8 +28,12 @@ exports.createField = async (req, res) => {
     area,
     createdBy: req.user.id
   });
-
-  res.status(201).json(field);
+// Fetch the newly created field with farmer name populated
+const populatedField = await Field.findById(field._id).populate({
+  path: 'farmer',
+  select: 'name' // Only get farmer's name
+});
+  res.status(201).json(populatedField);
    
   } catch (err) {
     console.error(err);
