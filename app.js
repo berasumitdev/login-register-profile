@@ -5,6 +5,9 @@ const cors = require('cors');
 const authRoutes = require('./routes/authRoutes');
 const profileRoutes = require('./routes/profileRoutes');
 
+const farmerRoutes = require('./routes/farmerRoutes');
+const fieldRoutes = require('./routes/fieldRoutes');
+
 const app = express();
 
 // Middleware
@@ -22,6 +25,8 @@ app.get('/', (req, res) => {
 });
 app.use('/api/auth', authRoutes);
 app.use('/api/profile', profileRoutes);
+app.use('/api/farmers', farmerRoutes);
+app.use('/api/fields', fieldRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
