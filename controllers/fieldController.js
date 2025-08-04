@@ -105,3 +105,16 @@ exports.getAllFields = async (req, res) => {
     });
   }
 };
+
+// Bulk create fields
+exports.bulkCreate= async (req, res) => {
+  const fields = req.body; // array of { name, farmerId, area, coordinates }
+
+  try {
+    const created = await Field.insertMany(fields);
+    res.status(201).json({ data: created });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to save fields" });
+  }
+};
