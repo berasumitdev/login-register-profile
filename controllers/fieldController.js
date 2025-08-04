@@ -108,10 +108,20 @@ exports.getAllFields = async (req, res) => {
 
 // Bulk create fields
 exports.bulkCreate= async (req, res) => {
-  const fields = req.body; // array of { name, farmerId, area, coordinates }
-
   try {
-    const created = await Field.insertMany(fields);
+  const userId = req.user.id;
+
+    const enrichedFields = req.body.map(field => ({
+      name: field.name,
+      farmer: field.farmerId, // use correct key
+      coordinates: field.coordinates,
+      area: field.area,
+      createdBy: userId
+    }));
+  // const fields = req.body; // array of { name, farmerId, area, coordinates }
+
+
+    const created = await Field.insertMany(enrichedFields);
     res.status(201).json({ data: created });
   } catch (err) {
     console.error(err);

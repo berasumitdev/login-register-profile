@@ -5,7 +5,7 @@ const { protect } = require('../middlewares/authMiddleware');
 
 
 router.post('/create', protect,createField);
-router.post('/bulk', bulkCreate)
+router.post('/bulk',protect, bulkCreate)
 router.get('/all', protect,getAllFields);
 router.get('/:farmerId', protect,getFieldsByFarmer);
 
