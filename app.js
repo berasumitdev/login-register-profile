@@ -5,6 +5,8 @@ const cors = require('cors');
 const authRoutes = require('./routes/authRoutes');
 const profileRoutes = require('./routes/profileRoutes');
 
+const job = require("./lib/cron");
+
 const farmerRoutes = require('./routes/farmerRoutes');
 const fieldRoutes = require('./routes/fieldRoutes');
 
@@ -13,7 +15,7 @@ const app = express();
 // Middleware
 app.use(express.json());
 app.use(cors());
-
+job.start();
 // Database connection
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('MongoDB connected'))
