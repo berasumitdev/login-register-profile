@@ -46,3 +46,24 @@ exports.getFarmers = async (req, res) => {
  console.error(err);
     res.status(500).json({ success: false, message: 'Server Error' });
   }};
+
+  // get single farmer by id
+exports.getFarmerById = async (req, res) => {
+  try {
+    const farmer = await Farmer.findOne({
+      _id: req.params.id,
+      enrolledBy: req.user.id // ensure AE can only see their own farmers
+    })
+    .select('-__v')
+    .populate('enrolledBy', 'name email');
+
+    if (!farmer) {
+      return res.status(404).json({ success: false, message: 'Farmer not found' });
+    }
+
+    res.status(200).json(farmer);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: 'Server Error' });
+  }
+};
